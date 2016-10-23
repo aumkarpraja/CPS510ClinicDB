@@ -24,8 +24,8 @@ CREATE TABLE Appointment
 (
 p_id VARCHAR2(20) NOT NULL,
 e_id VARCHAR2(20) NOT NULL,
-reason varchar(1024) NOT NULL PRIMARY KEY,
-appointmentaime TIMESTAMP,
+reason varchar(1024) NOT NULL,
+appointmentime TIMESTAMP NOT NULL PRIMARY KEY,
 FOREIGN KEY (p_id) REFERENCES patients (p_id),
 FOREIGN KEY (e_id) REFERENCES employees (e_id)
 );
