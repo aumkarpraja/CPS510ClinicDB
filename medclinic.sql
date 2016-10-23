@@ -1,17 +1,17 @@
 CREATE TABLE Employees
 (
-  e_id VARCHAR2(20) NOT NULL PRIMARY KEY,
+  e_id NUMBER PRIMARY KEY,
   lastname varchar(255) NOT NULL,
   firstname varchar(255) NOT NULL,
   employeesalary FLOAT(2) NOT NULL,
-  employeerole varchar(255) NOT NULL,
+  employeerole varchar(255) NOT NULL
 );
 
 CREATE TABLE Patients
 (
  lastcheckup DATE,
- p_id VARCHAR2(20) NOT NULL PRIMARY KEY,
- p_name VARCHAR(30) NOT NULL,
+ p_id NUMBER NOT NULL PRIMARY KEY,
+ p_name NUMBER NOT NULL,
  healthcard_num int NOT NULL,
  p_address VARCHAR2(255) NOT NULL,
  p_number VARCHAR2(12) NOT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE Patients
 
 CREATE TABLE Appointment
 (
-p_id VARCHAR2(20) NOT NULL,
-e_id VARCHAR2(20) NOT NULL,
+p_id NUMBER NOT NULL,
+e_id NUMBER NOT NULL,
 reason varchar(1024) NOT NULL,
 appointmentime TIMESTAMP NOT NULL PRIMARY KEY,
 FOREIGN KEY (p_id) REFERENCES patients (p_id),
@@ -32,8 +32,8 @@ FOREIGN KEY (e_id) REFERENCES employees (e_id)
 
 CREATE TABLE PharmacistData
 (
- p_id VARCHAR2(20) NOT NULL,
- e_id VARCHAR2(20) NOT NULL,
+ p_id NUMBER NOT NULL,
+ e_id NUMBER NOT NULL,
  medicineperscribed varchar(1024) NOT NULL PRIMARY KEY,
  FOREIGN KEY (p_id) REFERENCES patients (p_id),
  FOREIGN KEY (e_id) REFERENCES employees (e_id)
@@ -41,10 +41,11 @@ CREATE TABLE PharmacistData
 
 CREATE TABLE TestResults
 (
- p_id VARCHAR2(20) NOT NULL,
- e_id VARCHAR2(20) NOT NULL,
+ p_id NUMBER NOT NULL,
+ e_id NUMBER NOT NULL,
  testtype varchar(255)NOT NULL PRIMARY KEY,
  testresult varchar(1024) NOT NULL,
  FOREIGN KEY (p_id) REFERENCES patients (p_id),
  FOREIGN KEY (e_id) REFERENCES employees (e_id)
 );
+
