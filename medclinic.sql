@@ -45,8 +45,9 @@ CREATE TABLE TestResults
 (
  p_id NUMBER NOT NULL,
  e_id NUMBER NOT NULL,
- testtype varchar(255)NOT NULL PRIMARY KEY,
+ testtype varchar(255)NOT NULL,
  testresult varchar(1024) NOT NULL,
+ test_id NUMBER NOT NULL PRIMARY KEY,
  FOREIGN KEY (p_id) REFERENCES patients (p_id),
  FOREIGN KEY (e_id) REFERENCES employees (e_id)
 );
