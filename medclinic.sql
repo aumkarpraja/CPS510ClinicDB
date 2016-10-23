@@ -15,7 +15,7 @@ CREATE TABLE Patients
  healthcard_num int NOT NULL,
  p_address VARCHAR2(255) NOT NULL,
  p_number VARCHAR2(12) NOT NULL,
- dob varchar(11) NOT NULL, 
+ dob varchar(11) NOT NULL,
  bloodtype varchar(4) NOT NULL,
  allergies varchar(512)
 );
@@ -25,7 +25,8 @@ CREATE TABLE Appointment
 p_id NUMBER NOT NULL,
 e_id NUMBER NOT NULL,
 reason varchar(1024) NOT NULL,
-appointmentime TIMESTAMP NOT NULL PRIMARY KEY,
+appointmentime TIMESTAMP NOT NULL,
+appointment_id NUMBER NOT NULL PRIMARY KEY,
 FOREIGN KEY (p_id) REFERENCES patients (p_id),
 FOREIGN KEY (e_id) REFERENCES employees (e_id)
 );
@@ -34,7 +35,8 @@ CREATE TABLE PharmacistData
 (
  p_id NUMBER NOT NULL,
  e_id NUMBER NOT NULL,
- medicineperscribed varchar(1024) NOT NULL PRIMARY KEY,
+ prescription varchar(1024) NOT NULL,
+ prescription_id NUMBER NOT NULL PRIMARY KEY,
  FOREIGN KEY (p_id) REFERENCES patients (p_id),
  FOREIGN KEY (e_id) REFERENCES employees (e_id)
 );
@@ -48,4 +50,3 @@ CREATE TABLE TestResults
  FOREIGN KEY (p_id) REFERENCES patients (p_id),
  FOREIGN KEY (e_id) REFERENCES employees (e_id)
 );
-
