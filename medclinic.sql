@@ -3,8 +3,8 @@ CREATE TABLE Employees
   e_id VARCHAR2(20) NOT NULL PRIMARY KEY,
   lastname varchar(255) NOT NULL,
   firstname varchar(255) NOT NULL,
-  employeesalary FLOAT(2)NOT NULL,
-  employeerole varchar(255)
+  employeesalary FLOAT(2) NOT NULL,
+  employeerole varchar(255) NOT NULL,
 );
 
 CREATE TABLE Patients
