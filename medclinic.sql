@@ -1,3 +1,5 @@
+
+
 CREATE TABLE Employees
 (
   e_id NUMBER PRIMARY KEY,
@@ -25,7 +27,7 @@ CREATE TABLE Appointment
 p_id NUMBER NOT NULL,
 e_id NUMBER NOT NULL,
 reason varchar(1024) NOT NULL,
-appointmentime TIMESTAMP NOT NULL,
+appointmenttime TIMESTAMP NOT NULL,
 appointment_id NUMBER NOT NULL PRIMARY KEY,
 FOREIGN KEY (p_id) REFERENCES patients (p_id),
 FOREIGN KEY (e_id) REFERENCES employees (e_id)
@@ -51,3 +53,22 @@ CREATE TABLE TestResults
  FOREIGN KEY (p_id) REFERENCES patients (p_id),
  FOREIGN KEY (e_id) REFERENCES employees (e_id)
 );
+
+/*
+CREATE TABLE drugs
+(
+  drug_id NUMBER PRIMARY KEY,
+  supplier_id NUMBER NOT NULL,
+  price NUMBER NOT NULL,
+  drug_name VARCHAR(20)NOT NULL,
+  FOREIGN KEY (supplier_id) REFERENCES supplier(supplier_id)
+);
+
+CREATE TABLE supplier
+(
+  supplier_id NUMBER PRIMARY KEY,
+  phone NUMBER NOT NULL,
+  name VARCHAR2(20) NOT NULL,
+  address VARCHAR2(20) NOT NULL
+);
+*/
