@@ -7,9 +7,6 @@ import java.sql.*;
 
 public class Database {
     // Driver info
-    static String dbcommand = " ";
-
-
     static Connection con = null;
     static Statement st = null;
     static ResultSet rs = null;
@@ -31,7 +28,7 @@ public class Database {
 
         System.out.println("Connecting to database...");
 
-        // Make  a connection to the DB, this is currently set up with port tunneling in mind
+        // Make a connection to the DB, this is currently set up with port tunneling in mind
         try {
             con = DriverManager.getConnection(
                     "jdbc:oracle:thin:@localhost:1521:orcl","aprajapa","11083404"); // @TODO: NEEDS TO BE CHANGED
@@ -40,46 +37,66 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         System.out.println("Connected!");
-
-        getPatients();
         System.out.println("");
-        //getEmployees();
-
-
     }
 
-    void getPatients()
+
+    String getEmployees()
     {
+        String result = "";
+        result += "<h1>Employees</h1>";
+        result += "<table border='1'><tr><th>e_Id</th><th>LastName</th><th>FirstName</th><th>Salary</th><th>EmployeeRole</th></tr>";
+
+        try {
+            rs = st.executeQuery("SELECT * FROM EMPLOYEES");
+
+            while (rs.next()) {
+                result += "<tr>";
+                for (int i = 1; i <= 5; i++) {
+                    result += "<th>" + rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result += "</tr>";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        result += "</table>";
+        return result;
+    }
+
+    String getPatients() {
+        String result = "";
+        result += "<h1>Patients</h1>";
         try{
-            System.out.println("-----------------------------------------");
-            System.out.println("-------------------PATIENTS--------------");
-            System.out.println("-----------------------------------------");
             rs = st.executeQuery("SELECT * FROM PATIENTS");
+            result += "<table border='1'><tr><th>P_Id</th><th>p_fname</th><th>p_lname</th><th>healthcard_num</th><th>p_address</th><th>p_Number</th><th>dob</th><th>bloodtype</th></tr>";
             while(rs.next())
             {
+                result += "<tr>";
                 for (int i = 1; i <= 8; i++)
                 {
-                    System.out.print(rs.getString(i));
-                    System.out.print("\t");
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
                 }
-
+                result+= "</tr>";
             }
         } catch(SQLException e)
         {
             e.printStackTrace();
         }
+        result += "</table>";
+        return result;
     }
-/*
-    String getEmployees()
+
+    String getAppointments()
     {
-        String result ="";
-        result += "<table border='1'><tr><th>e_Id</th><th>LastName</th><th>FirstName</th><th>Salary</th><th>EmployeeRole</th></tr>";
-
+        String result = "";
+        result += "<h1>Appointments</h1>";
         try{
-            rs = st.executeQuery("SELECT * FROM EMPLOYEES");
-
+            rs = st.executeQuery("SELECT * FROM APPOINTMENT");
+            result += "<table border='1'><tr><th>P_Id</th><th>E_id</th><th>reason</th><th>AppointmentTime</th><th>Appointment_Id</th></tr>";
             while(rs.next())
             {
                 result += "<tr>";
@@ -96,7 +113,58 @@ public class Database {
         }
         result += "</table>";
         return result;
-    }*/
+    }
+
+    String getPharm(){
+        String result="";
+        result += "<h1>PharmacistData</h1>";
+        try{
+            rs = st.executeQuery("SELECT * FROM PHARMACISTDATA");
+            result += "<table border='1'><tr><th>P_Id</th><th>E_id</th><th>Prescription</th><th>Prescription_id</th></tr>";
+            while(rs.next())
+            {
+                result += "<tr>";
+                for (int i = 1; i <= 4; i++)
+                {
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result+= "</tr>";
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        result += "</table>";
+
+        return result;
+    }
+
+    String getTestResults()
+    {
+        String result="";
+        result += "<h1>TestResults</h1>";
+        try{
+            rs = st.executeQuery("SELECT * FROM TESTRESULTS");
+            result += "<table border='1'><tr><th>P_Id</th><th>E_id</th><th>TestType</th><th>TestResult</th><th>Test_Id</th></tr>";
+            while(rs.next())
+            {
+                result += "<tr>";
+                for (int i = 1; i <= 5; i++)
+                {
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result+= "</tr>";
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        result += "</table>";
+        return result;
+    }
+
 
     String createAll(){
        try{
@@ -174,7 +242,6 @@ public class Database {
 
         String popAll(){
             try{
-
                 st.executeUpdate("INSERT INTO EMPLOYEES (E_ID , EMPLOYEEROLE , EMPLOYEESALARY , FIRSTNAME , LASTNAME) VALUES (1, 'doctor', 100000, 'Michael', 'Scott')");
                 st.executeUpdate("INSERT INTO EMPLOYEES (E_ID , EMPLOYEEROLE , EMPLOYEESALARY , FIRSTNAME , LASTNAME) VALUES (2, 'doctor', 100000, 'Amanda', 'Sherwyn')");
                 st.executeUpdate("INSERT INTO EMPLOYEES (E_ID , EMPLOYEEROLE , EMPLOYEESALARY , FIRSTNAME , LASTNAME) VALUES (3, 'doctor', 100000, 'Sandy', 'Be')");
@@ -202,8 +269,6 @@ public class Database {
                 st.executeUpdate("INSERT INTO PHARMACISTDATA (E_ID, P_ID, PRESCRIPTION, PRESCRIPTION_ID) VALUES (5, 5,'Zofran 4mg tabs', 500500504)");
                 st.executeUpdate("INSERT INTO PHARMACISTDATA (E_ID, P_ID, PRESCRIPTION, PRESCRIPTION_ID) VALUES (6, 6,'Bezaclin 250mg cap', 500500505)");
                 st.executeUpdate("INSERT INTO TESTRESULTS(E_ID , P_ID , TESTRESULT , TESTTYPE, TEST_ID) VALUES (2,4, 'positive','strepthroat', 200200200)");
-
-
             }
             catch(SQLException e)
             {
@@ -213,7 +278,10 @@ public class Database {
             return "<h1>Complete</h1>";
         }
 
-
+    /**
+     * @TODO: This needs to be shortened
+     * @return
+     */
     String getAll()
     {
         String result ="";
@@ -322,6 +390,143 @@ public class Database {
         }
         result += "</table>";
 
+        return result;
+    }
+
+    String advQuery1()
+    {
+        String result = "";
+        result += "<table border='1'><tr><th>Appointment_id</th><th>e_id</th><th>p_id</th><th>Prescription</th></tr>";
+
+        try{
+            rs = st.executeQuery("SELECT appointment.appointment_id, appointment.e_id,appointment.p_id, pharmacistdata.prescription FROM appointment " +
+                    "INNER JOIN pharmacistdata on appointment.p_id=pharmacistdata.p_id");
+
+            while(rs.next())
+            {
+                result += "<tr>";
+                for (int i = 1; i <= 4; i++)
+                {
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result+= "</tr>";
+            }
+            result+="</table>";;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    String advQuery2()
+    {
+        String result = "";
+        result += "<table border='1'><tr><th>Employee Count</th></tr>";
+
+        try{
+            rs = st.executeQuery("SELECT COUNT(EMPLOYEEROLE) FROM EMPLOYEES");
+
+            while(rs.next())
+            {
+                result += "<tr>";
+                for (int i = 1; i <= 2; i++)
+                {
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result+= "</tr>";
+            }
+            result+="</table>";;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    String advQuery3()
+    {
+        String result = "";
+        result += "<table border='1'><tr><th>Average Salary</th></tr>";
+
+        try{
+            rs = st.executeQuery("SELECT AVG(EMPLOYEESALARY) FROM EMPLOYEES");
+
+            while(rs.next())
+            {
+                result += "<tr>";
+                for (int i = 1; i <= 1; i++)
+                {
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result+= "</tr>";
+            }
+            result+="</table>";;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    String advQuery4()
+    {
+        String result = "";
+        result += "<table border='1'><tr><th>P_id</th><th>Prescription_id</th><th>Prescription</th></tr>";
+
+        try{
+            rs = st.executeQuery("SELECT DISTINCT appointment.p_id, pharmacistdata.prescription_id, " +
+                    "pharmacistdata.prescription FROM appointment INNER JOIN pharmacistdata on appointment.p_id=pharmacistdata.p_id");
+
+            while(rs.next())
+            {
+                result += "<tr>";
+                for (int i = 1; i <= 3; i++)
+                {
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result+= "</tr>";
+            }
+            result+="</table>";;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    String advQuery5()
+    {
+        String result = "";
+        result += "<table border='1'><tr><th>p_fname</th><th>Address Length</th></tr>";
+
+        try{
+            rs = st.executeQuery("SELECT p_fname,LENGTH(p_address) as LengthOfAddress FROM patients");
+
+            while(rs.next())
+            {
+                result += "<tr>";
+                for (int i = 1; i <= 2; i++)
+                {
+                    result += "<th>"+rs.getString(i) + "</th>";
+                    result += "\t";
+                }
+                result+= "</tr>";
+            }
+            result+="</table>";;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
         return result;
     }
 

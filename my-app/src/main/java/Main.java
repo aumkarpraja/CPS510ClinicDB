@@ -18,53 +18,6 @@ public class Main {
         // Explanation: The StaticFileLocation command of this API is broken in this version.
         // Spark.staticFileLocation("/"); // needs to be fixed by demo
 
-/*
-
-        // Login uses the auth function where UID and pass are passed into the
-        // back-end auth function where the password is checked, if it returns a
-        // 1 that means the UID and password are correct
-        get("/login/:uid/:pass", new Route() {
-            public Object handle(Request request, Response response) {
-                uid = Integer.parseInt(request.params(":uid"));
-                int pass = Integer.parseInt(request.params(":pass"));
-
-                if (database.auth(uid, pass) == 1)
-                    response.redirect("/site/html/main.html");
-                else
-                    return "Invalid password, please go back and try again!";
-
-                return null;
-            }
-        });
-
-        // Deposit takes in the amount from the front-end and the account type
-        get("/deposit/:amount/:accountType", new Route() {
-            public Object handle(Request request, Response response) {
-                int amount = Integer.parseInt(request.params(":amount"));
-                int accountType = Integer.parseInt(request.params(":accountType"));
-                database.deposit(uid, amount, accountType);
-                response.redirect("/site/html/main.html"); // redirect after deposit is done
-                return null;
-            }
-        });
-
-        // Withdraw does a similar thing but forwards the user to a message if they're trying
-        // to withdraw too much
-        get("/withdraw/:amount/:accountType", new Route() {
-            public Object handle(Request request, Response response) {
-                int amount = Integer.parseInt(request.params(":amount"));
-                int accountType = Integer.parseInt(request.params(":accountType"));
-
-                // If the result is -1 it means the amount being withdrawn is too big
-                if (database.withdraw(uid, amount, accountType) == -1)
-                    return "The amount you are trying to withdraw is greater than your balance, " +
-                            "please go back and choose a smaller amount.";
-                else // otherwise it has succeeded and will go back to the main pg
-                    response.redirect("/site/html/main.html");
-                return null;
-            }
-        });
-*/
         // Prints the account statement
         get("/selectall", new Route() {
             public Object handle(Request request, Response response) {
@@ -97,11 +50,48 @@ public class Main {
             }
         });
 
+        get("/select/:selectNum", new Route() {
+            public Object handle(Request request, Response response) {
+                int selectNum = Integer.parseInt(request.params(":selectNum"));
 
+                if (selectNum == 0)
+                    return database.getEmployees();
+                else if (selectNum == 1)
+                    return database.getPatients();
+                else if (selectNum == 2)
+                    return database.getAppointments();
+                else if (selectNum == 3)
+                    return database.getPharm();
+                else if (selectNum == 4)
+                    return database.getTestResults();
+                else
+                    // this should never happen unless someone manually entered stuff
+                    return "You are not authorized to be here. You clearly have used a command" +
+                            "that is beyond the specified options or manually inputted data.";
+            }
+        });
 
+        get("/advanced/:selectNum", new Route() {
+            public Object handle(Request request, Response response) {
+                int selectNum = Integer.parseInt(request.params(":selectNum"));
+
+                if (selectNum == 0)
+                    return database.advQuery1();
+                else if (selectNum == 1)
+                    return database.advQuery2();
+                else if (selectNum == 2)
+                    return database.advQuery3();
+                else if (selectNum == 3)
+                    return database.advQuery4();
+                else if (selectNum == 4)
+                    return database.advQuery5();
+                else
+                    // this should never happen unless someone manually entered stuff
+                    return "You are not authorized to be here. You clearly have used a command" +
+                            "that is beyond the specified options or manually inputted data.";
+            }
+        });
     }
-
-
 }
 
 	
