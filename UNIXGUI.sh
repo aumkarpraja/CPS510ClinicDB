@@ -2,8 +2,8 @@
 
 export LD_LIBRARY_PATH=/usr/lib/oracle/12.1/client64/lib
 
-user="aprajapa"
-pass="11083404"
+user=""
+pass=""
 
 set linesize 600;
 
