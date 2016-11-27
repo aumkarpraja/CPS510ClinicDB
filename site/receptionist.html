@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<head>
+	<title>Assignment GUI</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="main.css">
+
+</head>
+
+<body>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Receptionist Menu</a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	      <li><a href="menu.html">Home</a></li>
+	      <li class="active"><a href="#">Receptionist</a></li>
+	      <li><a href="debug.html">Debug</a></li>
+	    </ul>
+	  </div>
+	</nav>
+	<h1>Basic Menu</h1>
+	<a href="http://localhost:4567/selectall">View All Info</a><br>
+	<a href="http://localhost:4567/select/0">View All Employees</a><br>
+	<a href="http://localhost:4567/select/1">View All Patients</a><br>
+	<a href="http://localhost:4567/select/2">View All Addresses</a><br>
+	<a href="http://localhost:4567/select/3">View All Patient Medical Details</a><br>
+	<a href="http://localhost:4567/select/4">View All Appointments</a><br>
+<a href="http://localhost:4567/select/5">View All Prescriptions Given for Visits</a><br>
+<a href="http://localhost:4567/select/6">View All Medication Costs</a><br>
+<a href="http://localhost:4567/select/7">View All Procedures Given so far</a><br>
+<a href="http://localhost:4567/select/8">View All Medical Procedures</a><br>
+	<h1>Task Menu</h1>
+
+	<h2>Search for Patient</h2>
+	 <form class="form-inline quick-search-form" action="javascript:sendAPI()">
+        <div class="form-group">
+        		<input id="firstname" type="text" name="firstname" class="form-control" placeholder="First Name">
+        		<input id="lastname" type="text" name="lasttname" class="form-control" placeholder="Last Name">
+        </div>
+        <button type="submit" id="quick-search" class="btn btn-custom" ><span class="glyphicon glyphicon-search custom-glyph-color"></span></button>
+      </form>
+      <br>
+
+      <h2>Search for Employee</h2>
+       <form class="form-inline quick-search-form" action="javascript:sendAPIEmp()">
+        <div class="form-group">
+        		<input id="firstnameEmp" type="text" name="firstname" class="form-control" placeholder="First Name">
+        		<input id="lastnameEmp" type="text" name="lasttname" class="form-control" placeholder="Last Name">
+        </div>
+        <button type="submit" id="quick-search" class="btn btn-custom" ><span class="glyphicon glyphicon-search custom-glyph-color"></span></button>
+      </form>
+
+      <h2>Add new Patient</h2>
+       <form class="form-inline quick-search-form" action="javascript:sendAPIPatAdd()">
+        <div class="form-group">
+        		<input id="pat_id" type="text" name="patid" class="form-control" placeholder="Patient ID"><br>
+        		<input id="firstnamepat" type="text" name="firstname" class="form-control" placeholder="First Name">
+        		<input id="lastnamepat" type="text" name="lasttname" class="form-control" placeholder="Last Name"><br>
+        		<input id="dob" type="text" name="lasttname" class="form-control" placeholder="Date of Birth"><br>
+        		<input id="gender" type="text" name="lasttname" class="form-control" placeholder="Gender (M/F)">
+        </div>
+        <br><br>
+          <div class="form-group">
+        		<input id="add_id" type="text" name="patid" class="form-control" placeholder="Address ID"><br>
+        		<input id="address" type="text" name="firstname" class="form-control" placeholder="Address">
+        		<input id="city" type="text" name="lasttname" class="form-control" placeholder="City"><br>
+        		<input id="phone" type="text" name="lasttname" class="form-control" placeholder="Phone #"><br>
+        		<input id="postal" type="text" name="lasttname" class="form-control" placeholder="Postal Code">
+        </div>
+        <br><br>
+        <button type="submit" id="quick-search" class="btn btn-custom" >Add Patient <span class="glyphicon glyphicon-arrow-right"></span></button>
+      </form>
+
+      <h2>Create new Appointment</h2>
+       <form class="form-inline quick-search-form" action="javascript:sendAPIAppointmentAdd()">
+        <div class="form-group">
+        		<input id="emp_id_app" type="text" name="patid" class="form-control" placeholder="Employee ID">
+        		<input id="pat_id_app" type="text" name="firstname" class="form-control" placeholder="Patient ID"><br>
+        		<input id="visit_cost" type="text" name="lasttname" class="form-control" placeholder="Cost of Visit ($)"><br>
+        		<input id="visit_id" type="text" name="lasttname" class="form-control" placeholder="Visit ID">
+        		<input id="visit_rsn" type="text" name="lasttname" class="form-control" placeholder="Visit Reason"><br>
+        		<input id="visit_time" type="text" name="patid" class="form-control" placeholder="Date (yyyymmdd hh24:mi:ss)"><br>
+        </div>
+     	<br><br>
+        <button type="submit" id="quick-search" class="btn btn-custom" >Create Appointment <span class="glyphicon glyphicon-arrow-right"></span></button>
+      </form>
+
+      <h2>Delete Appointment</h2>
+        <form class="form-inline quick-search-form" action="javascript:sendAPIAppointmentRem()">
+        <div class="form-group">
+        		<input id="visit_id_del" type="text" name="lasttname" class="form-control" placeholder="Visit ID">
+        </div>
+     	<br><br>
+        <button type="submit" id="quick-search" class="btn btn-custom" >Delete Appointment <span class="glyphicon glyphicon-arrow-right"></span></button>
+      </form>
+
+      <h2>Delete Patient</h2>
+       <form class="form-inline quick-search-form" action="javascript:sendAPIPatientRem()">
+        <div class="form-group">
+        		<input id="pat_id_del" type="text" name="lasttname" class="form-control" placeholder="Patient ID">
+        </div>
+     	<br><br>
+        <button type="submit" id="quick-search" class="btn btn-custom" >Delete Patient <span class="glyphicon glyphicon-arrow-right"></span></button>
+      </form>
+</body>
+
+<script>
+	function sendAPI()
+	{
+		var first = document.getElementById("firstname").value;
+		var last = document.getElementById("lastname").value;
+
+		var url =  'http://localhost:4567/searchpatientname/' + first + '/' + last;
+		window.location = url;
+	}
+
+	function sendAPIEmp()
+	{
+		var first = document.getElementById("firstnameEmp").value;
+		var last = document.getElementById("lastnameEmp").value;
+
+		var url =  'http://localhost:4567/searchemployeename/' + first + '/' + last;
+		window.location = url;
+	}
+
+	function sendAPIPatAdd()
+	{
+		var patid = document.getElementById("pat_id").value;
+		var first = document.getElementById("firstnamepat").value;
+		var last = document.getElementById("lastnamepat").value;
+		var dob = document.getElementById("dob").value;
+		var gender = document.getElementById("gender").value;
+
+		var add_id = document.getElementById("add_id").value;
+		var address = document.getElementById("address").value;
+		var city = document.getElementById("city").value;
+		var phone = document.getElementById("phone").value;
+		var postal = document.getElementById("postal").value;
+
+		var url = "http://localhost:4567/createpatient/" + patid + "/" + first + "/" + last + "/" + dob + "/" + gender  + "/" + add_id  + "/" + address  + "/" + city  + "/" + phone  + "/" + postal;
+		window.location = url;
+ 	}
+
+ 	function sendAPIAppointmentAdd()
+ 	{
+ 		var empid = document.getElementById("emp_id_app").value;
+		var patid = document.getElementById("pat_id_app").value;
+		var cost = document.getElementById("visit_cost").value;
+		var vid = document.getElementById("visit_id").value;
+		var rsn = document.getElementById("visit_rsn").value;
+		var time = document.getElementById("visit_time").value;
+
+		var url = "http://localhost:4567/createappointment/" + empid + "/" + patid + "/" + cost  + "/" + vid + "/" + rsn + "/" + time;
+		window.location = url;
+ 	}
+
+ 	function sendAPIAppointmentRem()
+ 	{
+ 		var vid = document.getElementById("visit_id_del").value;
+ 		var url = "http://localhost:4567/removeappointment/" + vid;
+ 		window.location = url;
+	}
+
+	function sendAPIPatientRem() 
+	{
+	 	var pid = document.getElementById("pat_id_del").value;
+	 	var url = "http://localhost:4567/removepatient/" + pid;
+	 	window.location = url;
+	}
+</script>
